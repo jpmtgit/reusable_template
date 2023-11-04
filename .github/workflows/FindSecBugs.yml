@@ -1,0 +1,23 @@
+name: Dependecy-Check and FindSecBugs
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  BuildWithGitHubActions:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - name: Run FindSecBugs
+      run: ./findsecbugs.sh -progress -output findsecbugs-results.html -html target/*.jar
+
+    - name: Upload FindSecBugs Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: findsecbugs-report
+        path: findsecbugs-results.html
