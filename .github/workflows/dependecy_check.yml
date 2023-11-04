@@ -1,16 +1,16 @@
-name: Dependecy-Check
+name: DotNetBuild_With_MSBuild
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+ workflow_call:
+  inputs:
+    file_path:
+      required: true
+      type: string
 
 jobs:
-  BuildWithGitHubActions:
-
+  BuildWithGithubActions:
+  
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -36,3 +36,5 @@ jobs:
       with:
         name: dependency-check-report
         path: ./report
+   
+  
