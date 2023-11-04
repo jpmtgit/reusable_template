@@ -1,4 +1,4 @@
-name: Dependecy-Check and FindSecBugs
+name: FindSecBugs
 
 on:
   push:
