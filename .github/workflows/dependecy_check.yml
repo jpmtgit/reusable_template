@@ -1,4 +1,4 @@
-name: DotNetBuild_With_MSBuild
+name: OWASP Dependecy-Check
 
 on:
  workflow_call:
