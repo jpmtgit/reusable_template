@@ -1,22 +1,26 @@
-  # This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow integrates SecurityCodeScan with GitHub's Code Scanning feature
-# SecurityCodeScan is a vulnerability patterns detector for C# and VB.NET
-
 name: DotNetBuild_With_MSBuild
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+ workflow_call:
+  inputs:
+    file_path:
+      required: true
+      type: string
 
 jobs:
   DotNet_MSBuild:
-    uses: jpmtgit/reusable_template/.github/workflows/reusable_testtemplate.yml@main
-    with:
-     file_path: DevOps_repo2_assessment_2/DevOps_repo2_assessment_2/src/dotnet-demoapp.csproj
+    runs-on: windows-latest
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1  
+
+      - name: Restore NuGet packages
+        run: dotnet restore ${{inputs.file_path}}
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+       
+      - name: Build app for release
+        run: msbuild ${{inputs.file_path}} -t:rebuild -verbosity:diag -property:Configuration=Release -t:rebuild -verbosity:diag -property:Configuration=Release  
